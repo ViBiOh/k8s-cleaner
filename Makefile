@@ -5,10 +5,10 @@ ifneq ("$(wildcard .env)","")
 	export
 endif
 
-APP_NAME = k8s-suicide-job
+APP_NAME = k8s-cleaner
 PACKAGES ?= ./...
 
-MAIN_SOURCE = cmd/k8s-suicide-job/cli.go
+MAIN_SOURCE = cmd/k8s-cleaner/cli.go
 MAIN_RUNNER = go run $(MAIN_SOURCE)
 ifeq ($(DEBUG), true)
 	MAIN_RUNNER = dlv debug $(MAIN_SOURCE) --
