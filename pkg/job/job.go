@@ -77,8 +77,7 @@ func (a App) Start(done <-chan struct{}) {
 		}
 
 		if job.Status.Succeeded != 1 {
-			logger.Warn("Job didn't succeeded, nothing to do")
-			return
+			continue
 		}
 
 		logger.Info("Updating TTLSecondsAfterFinished to %d for %s/%s", a.duration, job.Namespace, job.Name)
