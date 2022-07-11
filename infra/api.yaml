@@ -28,7 +28,7 @@ spec:
       name: vibioh/k8s-cleaner
       tag: "latest" # {"$imagepolicy": "default:flux-k8s-cleaner-api:tag"}
     service: null
-    serviceAccount: k8s-cleaner
+    serviceAccountName: k8s-cleaner
     probes:
       enabled: false
     config:
