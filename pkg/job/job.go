@@ -2,6 +2,7 @@ package job
 
 import (
 	"context"
+	"encoding/json"
 	"flag"
 	"strings"
 	"time"
@@ -10,15 +11,22 @@ import (
 	"github.com/ViBiOh/httputils/v4/pkg/logger"
 	batchv1 "k8s.io/api/batch/v1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/kubernetes"
 )
+
+type jobPatch struct {
+	Spec struct {
+		TTLSecondsAfterFinished int `json:"TTLSecondsAfterFinished"`
+	} `json:"spec"`
+}
 
 // App of package
 type App struct {
 	k8s       *kubernetes.Clientset
 	namespace string
 	label     string
-	duration  int32
+	payload   []byte
 	done      chan struct{}
 }
 
@@ -40,11 +48,17 @@ func Flags(fs *flag.FlagSet, prefix string, overrides ...flags.Override) Config 
 
 // New creates new App from Config
 func New(config Config, k8s *kubernetes.Clientset) App {
+	var patch jobPatch
+	patch.Spec.TTLSecondsAfterFinished = int((*config.duration).Seconds())
+
+	payload, err := json.Marshal(patch)
+	logger.Fatal(err)
+
 	return App{
 		k8s:       k8s,
 		namespace: strings.TrimSpace(*config.namespace),
 		label:     strings.TrimSpace(*config.label),
-		duration:  int32((*config.duration).Seconds()),
+		payload:   payload,
 		done:      make(chan struct{}),
 	}
 }
@@ -80,11 +94,10 @@ func (a App) Start(done <-chan struct{}) {
 			continue
 		}
 
-		logger.Info("Updating TTLSecondsAfterFinished to %d for %s/%s", a.duration, job.Namespace, job.Name)
+		logger.Info("Updating TTLSecondsAfterFinished for %s/%s", job.Namespace, job.Name)
 
-		job.Spec.TTLSecondsAfterFinished = &a.duration
-		if _, err = a.k8s.BatchV1().Jobs(job.Namespace).Update(context.Background(), job, v1.UpdateOptions{}); err != nil {
-			logger.Error("unable to update job `%s/%s`: %s", job.Namespace, job.Name, err)
+		if _, err = a.k8s.BatchV1().Jobs(job.Namespace).Patch(context.Background(), job.Name, types.JSONPatchType, a.payload, v1.PatchOptions{}); err != nil {
+			logger.Error("unable to patch job `%s/%s`: %s", job.Namespace, job.Name, err)
 		}
 	}
 }
