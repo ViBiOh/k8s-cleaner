@@ -10,7 +10,7 @@ rules:
     resources:
       - jobs
     verbs:
-      - update
+      - patch
       - watch
 ---
 apiVersion: v1
