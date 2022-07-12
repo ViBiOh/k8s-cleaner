@@ -17,7 +17,7 @@ import (
 
 type jobPatch struct {
 	Spec struct {
-		TTLSecondsAfterFinished int `json:"TTLSecondsAfterFinished"`
+		TTLSecondsAfterFinished int `json:"ttlSecondsAfterFinished"`
 	} `json:"spec"`
 }
 
@@ -96,7 +96,7 @@ func (a App) Start(done <-chan struct{}) {
 
 		logger.Info("Updating TTLSecondsAfterFinished for %s/%s", job.Namespace, job.Name)
 
-		if _, err = a.k8s.BatchV1().Jobs(job.Namespace).Patch(context.Background(), job.Name, types.JSONPatchType, a.payload, v1.PatchOptions{}); err != nil {
+		if _, err = a.k8s.BatchV1().Jobs(job.Namespace).Patch(context.Background(), job.Name, types.MergePatchType, a.payload, v1.PatchOptions{}); err != nil {
 			logger.Error("unable to patch job `%s/%s`: %s", job.Namespace, job.Name, err)
 		}
 	}
