@@ -72,7 +72,15 @@ func (a App) Done() <-chan struct{} {
 func (a App) Start(done <-chan struct{}) {
 	defer close(a.done)
 
-	jobs, err := a.k8s.BatchV1().Jobs(a.namespace).Watch(context.Background(), v1.ListOptions{
+	for {
+		if a.watchJobs(done) {
+			return
+		}
+	}
+}
+
+func (a App) watchJobs(done <-chan struct{}) bool {
+	watcher, err := a.k8s.BatchV1().Jobs(a.namespace).Watch(context.Background(), v1.ListOptions{
 		LabelSelector: a.label,
 		Watch:         true,
 	})
@@ -80,24 +88,37 @@ func (a App) Start(done <-chan struct{}) {
 
 	logger.Info("Listening jobs in `%s` namespace with `%s` label selector", a.namespace, a.label)
 
-	for event := range jobs.ResultChan() {
-		job, ok := event.Object.(*batchv1.Job)
-		if !ok {
-			continue
-		}
+	defer watcher.Stop()
 
-		if job.Spec.TTLSecondsAfterFinished != nil && *job.Spec.TTLSecondsAfterFinished != 0 {
-			continue
-		}
+	results := watcher.ResultChan()
 
-		if job.Status.Succeeded != 1 {
-			continue
-		}
+	for {
+		select {
+		case <-done:
+			return true
+		case event, ok := <-results:
+			if !ok {
+				return false
+			}
 
-		logger.Info("Updating TTLSecondsAfterFinished for %s/%s", job.Namespace, job.Name)
+			job, ok := event.Object.(*batchv1.Job)
+			if !ok {
+				continue
+			}
 
-		if _, err = a.k8s.BatchV1().Jobs(job.Namespace).Patch(context.Background(), job.Name, types.MergePatchType, a.payload, v1.PatchOptions{}); err != nil {
-			logger.Error("unable to patch job `%s/%s`: %s", job.Namespace, job.Name, err)
+			if job.Spec.TTLSecondsAfterFinished != nil && *job.Spec.TTLSecondsAfterFinished != 0 {
+				continue
+			}
+
+			if job.Status.Succeeded != 1 {
+				continue
+			}
+
+			logger.Info("Updating TTLSecondsAfterFinished for %s/%s", job.Namespace, job.Name)
+
+			if _, err := a.k8s.BatchV1().Jobs(job.Namespace).Patch(context.Background(), job.Name, types.MergePatchType, a.payload, v1.PatchOptions{}); err != nil {
+				logger.Error("unable to patch job `%s/%s`: %s", job.Namespace, job.Name, err)
+			}
 		}
 	}
 }
