@@ -34,18 +34,18 @@ func New(config Config) (*kubernetes.Clientset, error) {
 	k8sConfig, err := rest.InClusterConfig()
 	if err != nil {
 		if len(*config.file) == 0 {
-			return nil, fmt.Errorf("unable to get in-cluster config: %s", err)
+			return nil, fmt.Errorf("get in-cluster config: %s", err)
 		}
 
 		k8sConfig, err = clientcmd.BuildConfigFromFlags("", *config.file)
 		if err != nil {
-			return nil, fmt.Errorf("unable to get cluster config: %s", err)
+			return nil, fmt.Errorf("get cluster config: %s", err)
 		}
 	}
 
 	clientset, err := kubernetes.NewForConfig(k8sConfig)
 	if err != nil {
-		return nil, fmt.Errorf("unable to create client: %s", err)
+		return nil, fmt.Errorf("create client: %s", err)
 	}
 
 	return clientset, nil

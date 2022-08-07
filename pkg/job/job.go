@@ -117,7 +117,7 @@ func (a App) watchJobs(done <-chan struct{}) bool {
 			logger.Info("Updating TTLSecondsAfterFinished for %s/%s", job.Namespace, job.Name)
 
 			if _, err := a.k8s.BatchV1().Jobs(job.Namespace).Patch(context.Background(), job.Name, types.MergePatchType, a.payload, v1.PatchOptions{}); err != nil {
-				logger.Error("unable to patch job `%s/%s`: %s", job.Namespace, job.Name, err)
+				logger.Error("patch job `%s/%s`: %s", job.Namespace, job.Name, err)
 			}
 		}
 	}
