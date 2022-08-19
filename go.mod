@@ -7,7 +7,7 @@ require (
 	github.com/ViBiOh/httputils/v4 v4.46.1
 	k8s.io/api v0.24.4
 	k8s.io/apimachinery v0.24.4
-	k8s.io/client-go v0.24.3
+	k8s.io/client-go v0.24.4
 )
 
 require (
