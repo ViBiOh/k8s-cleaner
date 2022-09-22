@@ -5,8 +5,8 @@ go 1.19
 require (
 	github.com/ViBiOh/flags v1.2.0
 	github.com/ViBiOh/httputils/v4 v4.47.9
-	k8s.io/api v0.25.1
-	k8s.io/apimachinery v0.25.1
+	k8s.io/api v0.25.2
+	k8s.io/apimachinery v0.25.2
 	k8s.io/client-go v0.25.1
 )
 
