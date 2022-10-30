@@ -24,10 +24,10 @@ type jobPatch struct {
 // App of package
 type App struct {
 	k8s       *kubernetes.Clientset
+	done      chan struct{}
 	namespace string
 	label     string
 	payload   []byte
-	done      chan struct{}
 }
 
 // Config of package
