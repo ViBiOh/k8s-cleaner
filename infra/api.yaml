@@ -25,7 +25,7 @@ spec:
     nameOverride: k8s-cleaner
     image:
       name: vibioh/k8s-cleaner
-      tag: "202211180816" # {"$imagepolicy": "default:flux-k8s-cleaner-api:tag"}
+      tag: "202211222329" # {"$imagepolicy": "default:flux-k8s-cleaner-api:tag"}
     service: null
     serviceAccountName: k8s-cleaner
     probes:
