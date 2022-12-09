@@ -5,8 +5,8 @@ go 1.19
 require (
 	github.com/ViBiOh/flags v1.2.0
 	github.com/ViBiOh/httputils/v4 v4.50.7
-	k8s.io/api v0.25.4
-	k8s.io/apimachinery v0.25.4
+	k8s.io/api v0.25.5
+	k8s.io/apimachinery v0.25.5
 	k8s.io/client-go v0.25.4
 )
 
@@ -46,7 +46,7 @@ require (
 	go.opentelemetry.io/otel/metric v0.34.0 // indirect
 	go.opentelemetry.io/otel/sdk v1.11.2 // indirect
 	go.opentelemetry.io/otel/trace v1.11.2 // indirect
-	golang.org/x/net v0.0.0-20220805013720-a33c5aa5df48 // indirect
+	golang.org/x/net v0.3.1-0.20221206200815-1e63c2f08a10 // indirect
 	golang.org/x/oauth2 v0.0.0-20220722155238-128564f6959c // indirect
 	golang.org/x/sys v0.3.0 // indirect
 	golang.org/x/term v0.3.0 // indirect
