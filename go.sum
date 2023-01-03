@@ -2,8 +2,8 @@ cloud.google.com/go v0.26.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMT
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/ViBiOh/flags v1.2.0 h1:DaujjNXzD29KxKyp4eZdn7c9+uBN5DokWgDAe7DcUmc=
 github.com/ViBiOh/flags v1.2.0/go.mod h1:UyMB5zeD/aId7Xw3x7577ZNU298JmukzOcV8p/H2W1s=
-github.com/ViBiOh/httputils/v4 v4.51.1 h1:kTklOFl5zgzweh6CNxtwRJhYC4/GNZ8oYHxQkhHGmxQ=
-github.com/ViBiOh/httputils/v4 v4.51.1/go.mod h1:wFfDWFpelX/bwli5s1VLGOOFiT1sgIg9/D/ACyy7Lg8=
+github.com/ViBiOh/httputils/v4 v4.51.2 h1:nLXltNr1nre8SNzUfkCjtGRGjMkTFwVUpWHB6LtRmrU=
+github.com/ViBiOh/httputils/v4 v4.51.2/go.mod h1:wFfDWFpelX/bwli5s1VLGOOFiT1sgIg9/D/ACyy7Lg8=
 github.com/beorn7/perks v1.0.1 h1:VlbKKnNfV8bJzeqoa4cOKqO6bYr3WgKZxO8Z16+hsOM=
 github.com/beorn7/perks v1.0.1/go.mod h1:G2ZrVWU2WbWT9wwq4/hrbKbnv/1ERSJQ0ibhJ6rlkpw=
 github.com/census-instrumentation/opencensus-proto v0.2.1/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=
