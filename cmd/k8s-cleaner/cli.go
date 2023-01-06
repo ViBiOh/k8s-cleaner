@@ -50,7 +50,7 @@ func main() {
 	jobApp := job.New(jobConfig, k8sClient)
 
 	go jobApp.Start(healthApp.Done())
-	go promServer.Start("prometheus", healthApp.End(), prometheusApp.Handler())
+	go promServer.Start(healthApp.ContextEnd(), "prometheus", prometheusApp.Handler())
 
 	healthApp.WaitForTermination(jobApp.Done())
 	server.GracefulWait(promServer.Done(), jobApp.Done())
