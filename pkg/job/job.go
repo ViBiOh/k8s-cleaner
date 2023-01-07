@@ -69,11 +69,11 @@ func (a App) Done() <-chan struct{} {
 }
 
 // Start listening kubernetes event
-func (a App) Start(done <-chan struct{}) {
+func (a App) Start(ctx context.Context) {
 	defer close(a.done)
 
 	for {
-		if a.watchJobs(done) {
+		if a.watchJobs(ctx.Done()) {
 			return
 		}
 	}

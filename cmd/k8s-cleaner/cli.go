@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"net/http"
@@ -36,6 +37,8 @@ func main() {
 	logger.Global(logger.New(loggerConfig))
 	defer logger.Close()
 
+	ctx := context.Background()
+
 	go func() {
 		fmt.Println(http.ListenAndServe("localhost:9999", http.DefaultServeMux))
 	}()
@@ -49,8 +52,10 @@ func main() {
 
 	jobApp := job.New(jobConfig, k8sClient)
 
-	go jobApp.Start(healthApp.Done())
-	go promServer.Start(healthApp.ContextEnd(), "prometheus", prometheusApp.Handler())
+	go jobApp.Start(healthApp.Done(ctx))
+	endCtx := healthApp.End(ctx)
+
+	go promServer.Start(endCtx, "prometheus", prometheusApp.Handler())
 
 	healthApp.WaitForTermination(jobApp.Done())
 	server.GracefulWait(promServer.Done(), jobApp.Done())
