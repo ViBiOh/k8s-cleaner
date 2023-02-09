@@ -3,7 +3,6 @@
 Update the TTLSecondsAfterFinished of a Kubernetes job if succeeded.
 
 [![Build](https://github.com/ViBiOh/k8s-cleaner/workflows/Build/badge.svg)](https://github.com/ViBiOh/k8s-cleaner/actions)
-[![codecov](https://codecov.io/gh/ViBiOh/k8s-cleaner/branch/main/graph/badge.svg)](https://codecov.io/gh/ViBiOh/k8s-cleaner)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ViBiOh_k8s-cleaner&metric=alert_status)](https://sonarcloud.io/dashboard?id=ViBiOh_k8s-cleaner)
 
 ## Getting started
