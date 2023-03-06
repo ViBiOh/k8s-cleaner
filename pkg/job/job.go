@@ -73,14 +73,14 @@ func (a App) Start(ctx context.Context) {
 	defer close(a.done)
 
 	for {
-		if a.watchJobs(ctx.Done()) {
+		if a.watchJobs(ctx) {
 			return
 		}
 	}
 }
 
-func (a App) watchJobs(done <-chan struct{}) bool {
-	watcher, err := a.k8s.BatchV1().Jobs(a.namespace).Watch(context.Background(), v1.ListOptions{
+func (a App) watchJobs(ctx context.Context) bool {
+	watcher, err := a.k8s.BatchV1().Jobs(a.namespace).Watch(ctx, v1.ListOptions{
 		LabelSelector: a.label,
 		Watch:         true,
 	})
@@ -94,7 +94,7 @@ func (a App) watchJobs(done <-chan struct{}) bool {
 
 	for {
 		select {
-		case <-done:
+		case <-ctx.Done():
 			return true
 		case event, ok := <-results:
 			if !ok {
@@ -116,7 +116,7 @@ func (a App) watchJobs(done <-chan struct{}) bool {
 
 			logger.Info("Updating TTLSecondsAfterFinished for %s/%s", job.Namespace, job.Name)
 
-			if _, err := a.k8s.BatchV1().Jobs(job.Namespace).Patch(context.Background(), job.Name, types.MergePatchType, a.payload, v1.PatchOptions{}); err != nil {
+			if _, err := a.k8s.BatchV1().Jobs(job.Namespace).Patch(ctx, job.Name, types.MergePatchType, a.payload, v1.PatchOptions{}); err != nil {
 				logger.Error("patch job `%s/%s`: %s", job.Namespace, job.Name, err)
 			}
 		}
