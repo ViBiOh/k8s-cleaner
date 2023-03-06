@@ -26,11 +26,11 @@ Usage of k8s-cleaner:
   -jobDuration duration
         [job] TTL Duration after succeeded {K8S_CLEANER_JOB_DURATION} (default 2m0s)
   -jobLabel string
-        [job] Label selector for jobs {K8S_CLEANER_JOB_LABEL}
+        [job] Label selector for jobs {K8S_CLEANER_JOB_LABEL} (default "k8s-cleaner=true")
   -jobNamespace string
-        [job] Namespace to watch (blank for all) {K8S_CLEANER_JOB_NAMESPACE}
+        [job] Namespace to watch (blank for all) {K8S_CLEANER_JOB_NAMESPACE} (default "default")
   -k8sConfig string
-        [k8s] Path to kubeconfig file {K8S_CLEANER_K8S_CONFIG} (default "/Users/macbook/.kube/config")
+        [k8s] Path to kubeconfig file {K8S_CLEANER_K8S_CONFIG} (default "${HOME}/.kube/config")
   -loggerJson
         [logger] Log format as JSON {K8S_CLEANER_LOGGER_JSON}
   -loggerLevel string
