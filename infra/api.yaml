@@ -31,6 +31,7 @@ spec:
     probes:
       enabled: false
     config:
+      GOMAXPROCS: "1"
       K8S_CLEANER_JOB_LABEL: k8s-cleaner=true
       K8S_CLEANER_JOB_NAMESPACE: default
       K8S_CLEANER_LOGGER_JSON: "true"
