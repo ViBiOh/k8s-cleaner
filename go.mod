@@ -3,7 +3,7 @@ module github.com/ViBiOh/k8s-cleaner
 go 1.20
 
 require (
-	github.com/ViBiOh/flags v1.2.0
+	github.com/ViBiOh/flags v1.3.0
 	github.com/ViBiOh/httputils/v4 v4.56.1
 	k8s.io/api v0.26.3
 	k8s.io/apimachinery v0.26.3
