@@ -6,7 +6,7 @@ require (
 	github.com/ViBiOh/flags v1.3.0
 	github.com/ViBiOh/httputils/v4 v4.56.2
 	k8s.io/api v0.27.0
-	k8s.io/apimachinery v0.27.0
+	k8s.io/apimachinery v0.27.1
 	k8s.io/client-go v0.27.0
 )
 
