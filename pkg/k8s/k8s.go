@@ -25,7 +25,7 @@ func Flags(fs *flag.FlagSet, prefix string, overrides ...flags.Override) Config 
 	}
 
 	return Config{
-		file: flags.String(fs, prefix, "k8s", "config", "Path to kubeconfig file", defaultConfig, overrides),
+		file: flags.New("config", "Path to kubeconfig file").Prefix(prefix).DocPrefix("k8s").String(fs, defaultConfig, overrides),
 	}
 }
 

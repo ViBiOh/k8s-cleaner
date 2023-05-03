@@ -40,9 +40,9 @@ type Config struct {
 // Flags adds flags for configuring package
 func Flags(fs *flag.FlagSet, prefix string, overrides ...flags.Override) Config {
 	return Config{
-		namespace: flags.String(fs, prefix, "job", "Namespace", "Namespace to watch (blank for all)", "default", overrides),
-		label:     flags.String(fs, prefix, "job", "Label", "Label selector for jobs", "k8s-cleaner=true", overrides),
-		duration:  flags.Duration(fs, prefix, "job", "Duration", "TTL Duration after succeeded", time.Minute*2, overrides),
+		namespace: flags.New("Namespace", "Namespace to watch (blank for all)").Prefix(prefix).DocPrefix("job").String(fs, "default", overrides),
+		label:     flags.New("Label", "Label selector for jobs").Prefix(prefix).DocPrefix("job").String(fs, "k8s-cleaner=true", overrides),
+		duration:  flags.New("Duration", "TTL Duration after succeeded").Prefix(prefix).DocPrefix("job").Duration(fs, time.Minute*2, overrides),
 	}
 }
 
