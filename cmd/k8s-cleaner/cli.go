@@ -20,6 +20,7 @@ import (
 
 func main() {
 	fs := flag.NewFlagSet("k8s-cleaner", flag.ExitOnError)
+	fs.Usage = flags.Usage(fs)
 
 	promServerConfig := server.Flags(fs, "prometheus", flags.NewOverride("Port", uint(9090)), flags.NewOverride("IdleTimeout", 10*time.Second), flags.NewOverride("ShutdownTimeout", 5*time.Second))
 	healthConfig := health.Flags(fs, "")
