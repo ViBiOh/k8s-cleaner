@@ -4,11 +4,12 @@ import (
 	"context"
 	"encoding/json"
 	"flag"
+	"log/slog"
+	"os"
 	"strings"
 	"time"
 
 	"github.com/ViBiOh/flags"
-	"github.com/ViBiOh/httputils/v4/pkg/logger"
 	batchv1 "k8s.io/api/batch/v1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -52,7 +53,10 @@ func New(config Config, k8s *kubernetes.Clientset) App {
 	patch.Spec.TTLSecondsAfterFinished = int((*config.duration).Seconds())
 
 	payload, err := json.Marshal(patch)
-	logger.Fatal(err)
+	if err != nil {
+		slog.Error("marshal json", "err", err)
+		os.Exit(1)
+	}
 
 	return App{
 		k8s:       k8s,
@@ -84,9 +88,12 @@ func (a App) watchJobs(ctx context.Context) bool {
 		LabelSelector: a.label,
 		Watch:         true,
 	})
-	logger.Fatal(err)
+	if err != nil {
+		slog.Error("watch jobs", "err", err)
+		os.Exit(1)
+	}
 
-	logger.Info("Listening jobs in `%s` namespace with `%s` label selector", a.namespace, a.label)
+	slog.Info("Listening jobs", "namespace", a.namespace, "label", a.label)
 
 	defer watcher.Stop()
 
@@ -114,10 +121,10 @@ func (a App) watchJobs(ctx context.Context) bool {
 				continue
 			}
 
-			logger.Info("Updating TTLSecondsAfterFinished for %s/%s", job.Namespace, job.Name)
+			slog.Info("Updating TTLSecondsAfterFinished", "namespace", job.Namespace, "name", job.Name)
 
 			if _, err := a.k8s.BatchV1().Jobs(job.Namespace).Patch(ctx, job.Name, types.MergePatchType, a.payload, v1.PatchOptions{}); err != nil {
-				logger.Error("patch job `%s/%s`: %s", job.Namespace, job.Name, err)
+				slog.Error("patch job", "err", err, "namespace", job.Namespace, "name", job.Name)
 			}
 		}
 	}

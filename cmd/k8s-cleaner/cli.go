@@ -4,6 +4,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"log/slog"
 	"net/http"
 	"os"
 	"time"
@@ -32,7 +33,10 @@ func main() {
 	k8sConfig := k8s.Flags(fs, "k8s")
 	jobConfig := job.Flags(fs, "job")
 
-	logger.Fatal(fs.Parse(os.Args[1:]))
+	if err := fs.Parse(os.Args[1:]); err != nil {
+		slog.Error("parse flags", "err", err)
+		os.Exit(1)
+	}
 
 	alcotest.DoAndExit(alcotestConfig)
 	logger.Global(logger.New(loggerConfig))
@@ -49,7 +53,10 @@ func main() {
 	healthApp := health.New(healthConfig)
 
 	k8sClient, err := k8s.New(k8sConfig)
-	logger.Fatal(err)
+	if err != nil {
+		slog.Error("k8s client", "err", err)
+		os.Exit(1)
+	}
 
 	jobApp := job.New(jobConfig, k8sClient)
 
