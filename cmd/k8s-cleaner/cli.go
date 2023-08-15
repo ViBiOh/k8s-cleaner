@@ -4,6 +4,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"log"
 	"log/slog"
 	"net/http"
 	"os"
@@ -34,8 +35,7 @@ func main() {
 	jobConfig := job.Flags(fs, "job")
 
 	if err := fs.Parse(os.Args[1:]); err != nil {
-		slog.Error("parse flags", "err", err)
-		os.Exit(1)
+		log.Fatal(err)
 	}
 
 	alcotest.DoAndExit(alcotestConfig)
