@@ -21,50 +21,19 @@ Be careful when using the CLI values, if someone list the processes on the syste
 
 ```bash
 Usage of k8s-cleaner:
-  -graceDuration duration
-        [http] Grace duration when SIGTERM received {K8S_CLEANER_GRACE_DURATION} (default 30s)
-  -jobDuration duration
-        [job] TTL Duration after succeeded {K8S_CLEANER_JOB_DURATION} (default 2m0s)
-  -jobLabel string
-        [job] Label selector for jobs {K8S_CLEANER_JOB_LABEL} (default "k8s-cleaner=true")
-  -jobNamespace string
-        [job] Namespace to watch (blank for all) {K8S_CLEANER_JOB_NAMESPACE} (default "default")
-  -k8sConfig string
-        [k8s] Path to kubeconfig file {K8S_CLEANER_K8S_CONFIG} (default "${HOME}/.kube/config")
-  -loggerJson
-        [logger] Log format as JSON {K8S_CLEANER_LOGGER_JSON}
-  -loggerLevel string
-        [logger] Logger level {K8S_CLEANER_LOGGER_LEVEL} (default "INFO")
-  -loggerLevelKey string
-        [logger] Key for level in JSON {K8S_CLEANER_LOGGER_LEVEL_KEY} (default "level")
-  -loggerMessageKey string
-        [logger] Key for message in JSON {K8S_CLEANER_LOGGER_MESSAGE_KEY} (default "message")
-  -loggerTimeKey string
-        [logger] Key for timestamp in JSON {K8S_CLEANER_LOGGER_TIME_KEY} (default "time")
-  -okStatus int
-        [http] Healthy HTTP Status code {K8S_CLEANER_OK_STATUS} (default 204)
-  -prometheusAddress string
-        [prometheus] Listen address {K8S_CLEANER_PROMETHEUS_ADDRESS}
-  -prometheusCert string
-        [prometheus] Certificate file {K8S_CLEANER_PROMETHEUS_CERT}
-  -prometheusGzip
-        [prometheus] Enable gzip compression of metrics output {K8S_CLEANER_PROMETHEUS_GZIP}
-  -prometheusIdleTimeout duration
-        [prometheus] Idle Timeout {K8S_CLEANER_PROMETHEUS_IDLE_TIMEOUT} (default 10s)
-  -prometheusIgnore string
-        [prometheus] Ignored path prefixes for metrics, comma separated {K8S_CLEANER_PROMETHEUS_IGNORE}
-  -prometheusKey string
-        [prometheus] Key file {K8S_CLEANER_PROMETHEUS_KEY}
-  -prometheusPort uint
-        [prometheus] Listen port (0 to disable) {K8S_CLEANER_PROMETHEUS_PORT} (default 9090)
-  -prometheusReadTimeout duration
-        [prometheus] Read Timeout {K8S_CLEANER_PROMETHEUS_READ_TIMEOUT} (default 5s)
-  -prometheusShutdownTimeout duration
-        [prometheus] Shutdown Timeout {K8S_CLEANER_PROMETHEUS_SHUTDOWN_TIMEOUT} (default 5s)
-  -prometheusWriteTimeout duration
-        [prometheus] Write Timeout {K8S_CLEANER_PROMETHEUS_WRITE_TIMEOUT} (default 10s)
-  -url string
-        [alcotest] URL to check {K8S_CLEANER_URL}
-  -userAgent string
-        [alcotest] User-Agent for check {K8S_CLEANER_USER_AGENT} (default "Alcotest")
+  --graceDuration     duration  [http] Grace duration when SIGTERM received ${K8S_CLEANER_GRACE_DURATION} (default 30s)
+  --jobDuration       duration  [job] TTL Duration after succeeded ${K8S_CLEANER_JOB_DURATION} (default 2m0s)
+  --jobLabel          string    [job] Label selector for jobs ${K8S_CLEANER_JOB_LABEL} (default "k8s-cleaner=true")
+  --jobNamespace      string    [job] Namespace to watch (blank for all) ${K8S_CLEANER_JOB_NAMESPACE} (default "default")
+  --k8sConfig         string    [k8s] Path to kubeconfig file ${K8S_CLEANER_K8S_CONFIG} (default "/Users/macbook/.kube/config")
+  --loggerJson                  [logger] Log format as JSON ${K8S_CLEANER_LOGGER_JSON} (default false)
+  --loggerLevel       string    [logger] Logger level ${K8S_CLEANER_LOGGER_LEVEL} (default "INFO")
+  --loggerLevelKey    string    [logger] Key for level in JSON ${K8S_CLEANER_LOGGER_LEVEL_KEY} (default "level")
+  --loggerMessageKey  string    [logger] Key for message in JSON ${K8S_CLEANER_LOGGER_MESSAGE_KEY} (default "msg")
+  --loggerTimeKey     string    [logger] Key for timestamp in JSON ${K8S_CLEANER_LOGGER_TIME_KEY} (default "time")
+  --okStatus          int       [http] Healthy HTTP Status code ${K8S_CLEANER_OK_STATUS} (default 204)
+  --telemetryRate     string    [telemetry] OpenTelemetry sample rate, 'always', 'never' or a float value ${K8S_CLEANER_TELEMETRY_RATE} (default "always")
+  --telemetryURL      string    [telemetry] OpenTelemetry gRPC endpoint (e.g. otel-exporter:4317) ${K8S_CLEANER_TELEMETRY_URL}
+  --url               string    [alcotest] URL to check ${K8S_CLEANER_URL}
+  --userAgent         string    [alcotest] User-Agent for check ${K8S_CLEANER_USER_AGENT} (default "Alcotest")
 ```
