@@ -35,5 +35,6 @@ spec:
       K8S_CLEANER_JOB_LABEL: k8s-cleaner=true
       K8S_CLEANER_JOB_NAMESPACE: default
       K8S_CLEANER_LOGGER_JSON: "true"
+      K8S_CLEANER_TELEMETRY_URL: otel-collector.observability:4317
     pprof:
       enabled: true
