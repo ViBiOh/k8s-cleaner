@@ -4,7 +4,7 @@ go 1.21
 
 require (
 	github.com/ViBiOh/flags v1.3.1
-	github.com/ViBiOh/httputils/v4 v4.63.1
+	github.com/ViBiOh/httputils/v4 v4.63.3
 	k8s.io/api v0.28.0
 	k8s.io/apimachinery v0.28.0
 	k8s.io/client-go v0.28.0
