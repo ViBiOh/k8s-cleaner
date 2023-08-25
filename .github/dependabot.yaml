@@ -1,5 +1,6 @@
 ---
 version: 2
+
 updates:
   - package-ecosystem: github-actions
     directory: /
@@ -8,6 +9,7 @@ updates:
     commit-message:
       prefix: ci
       include: scope
+
   - package-ecosystem: gomod
     directory: /
     schedule:
@@ -15,3 +17,7 @@ updates:
     commit-message:
       prefix: chore
       include: scope
+    groups:
+      kubernetes:
+        patterns:
+          - "k8s.io/*"
