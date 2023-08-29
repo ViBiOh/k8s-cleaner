@@ -6,7 +6,6 @@ import (
 	"flag"
 	"log/slog"
 	"os"
-	"strings"
 	"time"
 
 	"github.com/ViBiOh/flags"
@@ -22,8 +21,23 @@ type jobPatch struct {
 	} `json:"spec"`
 }
 
-// App of package
-type App struct {
+type Config struct {
+	Namespace string
+	Label     string
+	Duration  time.Duration
+}
+
+func Flags(fs *flag.FlagSet, prefix string, overrides ...flags.Override) *Config {
+	var config Config
+
+	flags.New("Namespace", "Namespace to watch (blank for all)").Prefix(prefix).DocPrefix("job").StringVar(fs, &config.Namespace, "default", overrides)
+	flags.New("Label", "Label selector for jobs").Prefix(prefix).DocPrefix("job").StringVar(fs, &config.Label, "k8s-cleaner=true", overrides)
+	flags.New("Duration", "TTL Duration after succeeded").Prefix(prefix).DocPrefix("job").DurationVar(fs, &config.Duration, time.Minute*2, overrides)
+
+	return &config
+}
+
+type Service struct {
 	k8s       *kubernetes.Clientset
 	done      chan struct{}
 	namespace string
@@ -31,26 +45,9 @@ type App struct {
 	payload   []byte
 }
 
-// Config of package
-type Config struct {
-	namespace *string
-	label     *string
-	duration  *time.Duration
-}
-
-// Flags adds flags for configuring package
-func Flags(fs *flag.FlagSet, prefix string, overrides ...flags.Override) Config {
-	return Config{
-		namespace: flags.New("Namespace", "Namespace to watch (blank for all)").Prefix(prefix).DocPrefix("job").String(fs, "default", overrides),
-		label:     flags.New("Label", "Label selector for jobs").Prefix(prefix).DocPrefix("job").String(fs, "k8s-cleaner=true", overrides),
-		duration:  flags.New("Duration", "TTL Duration after succeeded").Prefix(prefix).DocPrefix("job").Duration(fs, time.Minute*2, overrides),
-	}
-}
-
-// New creates new App from Config
-func New(config Config, k8s *kubernetes.Clientset) App {
+func New(config *Config, k8s *kubernetes.Clientset) Service {
 	var patch jobPatch
-	patch.Spec.TTLSecondsAfterFinished = int((*config.duration).Seconds())
+	patch.Spec.TTLSecondsAfterFinished = int((config.Duration).Seconds())
 
 	payload, err := json.Marshal(patch)
 	if err != nil {
@@ -58,22 +55,20 @@ func New(config Config, k8s *kubernetes.Clientset) App {
 		os.Exit(1)
 	}
 
-	return App{
+	return Service{
 		k8s:       k8s,
-		namespace: strings.TrimSpace(*config.namespace),
-		label:     strings.TrimSpace(*config.label),
+		namespace: config.Namespace,
+		label:     config.Label,
 		payload:   payload,
 		done:      make(chan struct{}),
 	}
 }
 
-// Done close when work is over
-func (a App) Done() <-chan struct{} {
+func (a Service) Done() <-chan struct{} {
 	return a.done
 }
 
-// Start listening kubernetes event
-func (a App) Start(ctx context.Context) {
+func (a Service) Start(ctx context.Context) {
 	defer close(a.done)
 
 	for {
@@ -83,7 +78,7 @@ func (a App) Start(ctx context.Context) {
 	}
 }
 
-func (a App) watchJobs(ctx context.Context) bool {
+func (a Service) watchJobs(ctx context.Context) bool {
 	watcher, err := a.k8s.BatchV1().Jobs(a.namespace).Watch(ctx, v1.ListOptions{
 		LabelSelector: a.label,
 		Watch:         true,

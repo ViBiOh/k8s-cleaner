@@ -12,32 +12,31 @@ import (
 	"k8s.io/client-go/util/homedir"
 )
 
-// Config of package
 type Config struct {
-	file *string
+	File string
 }
 
-// Flags adds flags for configuring package
-func Flags(fs *flag.FlagSet, prefix string, overrides ...flags.Override) Config {
+func Flags(fs *flag.FlagSet, prefix string, overrides ...flags.Override) *Config {
 	var defaultConfig string
 	if home := homedir.HomeDir(); home != "" {
 		defaultConfig = filepath.Join(home, ".kube", "config")
 	}
 
-	return Config{
-		file: flags.New("config", "Path to kubeconfig file").Prefix(prefix).DocPrefix("k8s").String(fs, defaultConfig, overrides),
-	}
+	var config Config
+
+	flags.New("config", "Path to kubeconfig file").Prefix(prefix).DocPrefix("k8s").StringVar(fs, &config.File, defaultConfig, overrides)
+
+	return &config
 }
 
-// New creates new App from Config
-func New(config Config) (*kubernetes.Clientset, error) {
+func New(config *Config) (*kubernetes.Clientset, error) {
 	k8sConfig, err := rest.InClusterConfig()
 	if err != nil {
-		if len(*config.file) == 0 {
+		if len(config.File) == 0 {
 			return nil, fmt.Errorf("get in-cluster config: %w", err)
 		}
 
-		k8sConfig, err = clientcmd.BuildConfigFromFlags("", *config.file)
+		k8sConfig, err = clientcmd.BuildConfigFromFlags("", config.File)
 		if err != nil {
 			return nil, fmt.Errorf("get cluster config: %w", err)
 		}
