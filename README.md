@@ -21,7 +21,7 @@ Be careful when using the CLI values, if someone list the processes on the syste
 
 ```bash
 Usage of k8s-cleaner:
-  --graceDuration     duration  [http] Grace duration when SIGTERM received ${K8S_CLEANER_GRACE_DURATION} (default 30s)
+  --graceDuration     duration  [http] Grace duration when signal received ${K8S_CLEANER_GRACE_DURATION} (default 30s)
   --jobDuration       duration  [job] TTL Duration after succeeded ${K8S_CLEANER_JOB_DURATION} (default 2m0s)
   --jobLabel          string    [job] Label selector for jobs ${K8S_CLEANER_JOB_LABEL} (default "k8s-cleaner=true")
   --jobNamespace      string    [job] Namespace to watch (blank for all) ${K8S_CLEANER_JOB_NAMESPACE} (default "default")
