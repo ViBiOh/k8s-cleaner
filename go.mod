@@ -1,6 +1,7 @@
 module github.com/ViBiOh/k8s-cleaner
 
 go 1.21
+
 toolchain go1.21.0
 
 require (
