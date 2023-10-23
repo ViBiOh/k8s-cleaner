@@ -46,7 +46,7 @@ func main() {
 		fmt.Println(http.ListenAndServe("localhost:9999", http.DefaultServeMux))
 	}()
 
-	healthApp := health.New(healthConfig)
+	healthApp := health.New(ctx, healthConfig)
 
 	telemetryApp, err := telemetry.New(ctx, telemetryConfig)
 	if err != nil {
@@ -64,7 +64,7 @@ func main() {
 
 	jobApp := job.New(jobConfig, k8sClient)
 
-	go jobApp.Start(healthApp.Done(ctx))
+	go jobApp.Start(healthApp.DoneCtx())
 
 	healthApp.WaitForTermination(jobApp.Done())
 	server.GracefulWait(jobApp.Done())
