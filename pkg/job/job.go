@@ -130,7 +130,12 @@ func (s Service) watchNamespace(ctx context.Context, namespace string) bool {
 			slog.Error("patch job", "err", err, "namespace", job.Namespace, "name", job.Name)
 		}
 	}, func() {
-		watcher.Stop()
+		select {
+		case <-ctx.Done():
+			watcher.Stop()
+		default:
+		}
+
 		done = true
 	})
 
