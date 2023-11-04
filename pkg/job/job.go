@@ -132,11 +132,11 @@ func (s Service) watchNamespace(ctx context.Context, namespace string) bool {
 	}, func() {
 		select {
 		case <-ctx.Done():
-			watcher.Stop()
+			done = true
 		default:
 		}
 
-		done = true
+		watcher.Stop()
 	})
 
 	return done
