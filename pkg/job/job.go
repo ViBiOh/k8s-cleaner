@@ -61,7 +61,7 @@ func New(config *Config, k8s *kubernetes.Clientset) Service {
 
 	return Service{
 		k8s:        k8s,
-		namespaces: strings.Split(config.Namespace, "'"),
+		namespaces: strings.Split(config.Namespace, ","),
 		label:      config.Label,
 		payload:    payload,
 		done:       make(chan struct{}),
