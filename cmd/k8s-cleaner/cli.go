@@ -52,15 +52,17 @@ func main() {
 
 	telemetryApp, err := telemetry.New(ctx, telemetryConfig)
 	if err != nil {
-		slog.Error("create telemetry", "err", err)
+		slog.ErrorContext(ctx, "create telemetry", "err", err)
 		os.Exit(1)
 	}
 
 	defer telemetryApp.Close(ctx)
 
+	logger.AddOpenTelemetryToDefaultLogger(telemetryApp)
+
 	k8sClient, err := k8s.New(k8sConfig)
 	if err != nil {
-		slog.Error("k8s client", "err", err)
+		slog.ErrorContext(ctx, "k8s client", "err", err)
 		os.Exit(1)
 	}
 

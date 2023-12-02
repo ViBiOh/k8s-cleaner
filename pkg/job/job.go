@@ -102,11 +102,11 @@ func (s Service) watchNamespace(ctx context.Context, namespace string) bool {
 		Watch:         true,
 	})
 	if err != nil {
-		slog.Error("watch jobs", "err", err)
+		slog.ErrorContext(ctx, "watch jobs", "err", err)
 		os.Exit(1)
 	}
 
-	slog.Info("Listening jobs", "namespace", namespace, "label", s.label)
+	slog.InfoContext(ctx, "Listening jobs", "namespace", namespace, "label", s.label)
 
 	var done bool
 
@@ -124,10 +124,10 @@ func (s Service) watchNamespace(ctx context.Context, namespace string) bool {
 			return
 		}
 
-		slog.Info("Updating TTLSecondsAfterFinished", "namespace", job.Namespace, "name", job.Name)
+		slog.InfoContext(ctx, "Updating TTLSecondsAfterFinished", "namespace", job.Namespace, "name", job.Name)
 
 		if _, err := s.k8s.BatchV1().Jobs(job.Namespace).Patch(ctx, job.Name, types.MergePatchType, s.payload, v1.PatchOptions{}); err != nil {
-			slog.Error("patch job", "err", err, "namespace", job.Namespace, "name", job.Name)
+			slog.ErrorContext(ctx, "patch job", "err", err, "namespace", job.Namespace, "name", job.Name)
 		}
 	}, func() {
 		select {
