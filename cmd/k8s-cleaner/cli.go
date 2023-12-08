@@ -52,7 +52,7 @@ func main() {
 
 	telemetryApp, err := telemetry.New(ctx, telemetryConfig)
 	if err != nil {
-		slog.ErrorContext(ctx, "create telemetry", "err", err)
+		slog.ErrorContext(ctx, "create telemetry", "error", err)
 		os.Exit(1)
 	}
 
@@ -62,7 +62,7 @@ func main() {
 
 	k8sClient, err := k8s.New(k8sConfig)
 	if err != nil {
-		slog.ErrorContext(ctx, "k8s client", "err", err)
+		slog.ErrorContext(ctx, "k8s client", "error", err)
 		os.Exit(1)
 	}
 

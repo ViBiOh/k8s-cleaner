@@ -55,7 +55,7 @@ func New(config *Config, k8s *kubernetes.Clientset) Service {
 
 	payload, err := json.Marshal(patch)
 	if err != nil {
-		slog.Error("marshal json", "err", err)
+		slog.Error("marshal json", "error", err)
 		os.Exit(1)
 	}
 
@@ -102,7 +102,7 @@ func (s Service) watchNamespace(ctx context.Context, namespace string) bool {
 		Watch:         true,
 	})
 	if err != nil {
-		slog.ErrorContext(ctx, "watch jobs", "err", err)
+		slog.ErrorContext(ctx, "watch jobs", "error", err)
 		os.Exit(1)
 	}
 
@@ -127,7 +127,7 @@ func (s Service) watchNamespace(ctx context.Context, namespace string) bool {
 		slog.InfoContext(ctx, "Updating TTLSecondsAfterFinished", "namespace", job.Namespace, "name", job.Name)
 
 		if _, err := s.k8s.BatchV1().Jobs(job.Namespace).Patch(ctx, job.Name, types.MergePatchType, s.payload, v1.PatchOptions{}); err != nil {
-			slog.ErrorContext(ctx, "patch job", "err", err, "namespace", job.Namespace, "name", job.Name)
+			slog.ErrorContext(ctx, "patch job", "error", err, "namespace", job.Namespace, "name", job.Name)
 		}
 	}, func() {
 		select {
