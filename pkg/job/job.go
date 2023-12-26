@@ -12,6 +12,7 @@ import (
 
 	"github.com/ViBiOh/flags"
 	"github.com/ViBiOh/httputils/v4/pkg/concurrent"
+	"github.com/ViBiOh/httputils/v4/pkg/logger"
 	batchv1 "k8s.io/api/batch/v1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -101,10 +102,7 @@ func (s Service) watchNamespace(ctx context.Context, namespace string) bool {
 		LabelSelector: s.label,
 		Watch:         true,
 	})
-	if err != nil {
-		slog.ErrorContext(ctx, "watch jobs", "error", err)
-		os.Exit(1)
-	}
+	logger.FatalfOnErr(ctx, err, "watch jobs")
 
 	slog.InfoContext(ctx, "Listening jobs", "namespace", namespace, "label", s.label)
 

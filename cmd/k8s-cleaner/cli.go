@@ -5,7 +5,6 @@ import (
 	"flag"
 	"fmt"
 	"log"
-	"log/slog"
 	"net/http"
 	"os"
 
@@ -51,20 +50,14 @@ func main() {
 	healthApp := health.New(ctx, healthConfig)
 
 	telemetryApp, err := telemetry.New(ctx, telemetryConfig)
-	if err != nil {
-		slog.ErrorContext(ctx, "create telemetry", "error", err)
-		os.Exit(1)
-	}
+	logger.FatalfOnErr(ctx, err, "create telemetry")
 
 	defer telemetryApp.Close(ctx)
 
 	logger.AddOpenTelemetryToDefaultLogger(telemetryApp)
 
 	k8sClient, err := k8s.New(k8sConfig)
-	if err != nil {
-		slog.ErrorContext(ctx, "k8s client", "error", err)
-		os.Exit(1)
-	}
+	logger.FatalfOnErr(ctx, err, "k8s client")
 
 	jobApp := job.New(jobConfig, k8sClient)
 
