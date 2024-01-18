@@ -23,21 +23,40 @@ spec:
     cleanupOnFail: true
   values:
     nameOverride: k8s-cleaner
+    service: null
+    serviceAccountName: k8s-cleaner
     image:
       name: vibioh/k8s-cleaner
       tag: "202401180917" # {"$imagepolicy": "default:flux-k8s-cleaner-api:tag"}
-    service: null
-    serviceAccountName: k8s-cleaner
+    labels:
+      tags.datadoghq.com/env: "production"
+      tags.datadoghq.com/service: "k8s-cleaner"
+      tags.datadoghq.com/version: "202401180917" # {"$imagepolicy": "default:flux-k8s-cleaner-api:tag"}
+    env:
+      - name: GOMAXPROCS
+        valueFrom:
+          resourceFieldRef:
+            resource: limits.cpu
+      - name: GOMEMLIMIT
+        valueFrom:
+          resourceFieldRef:
+            resource: limits.memory
+      - name: VERSION
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.labels['tags.datadoghq.com/version']
+      - name: OTEL_SERVICE_NAME
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.labels['tags.datadoghq.com/service']
     probes:
       enabled: false
     config:
-      GOMAXPROCS: "1"
       K8S_CLEANER_JOB_LABEL: k8s-cleaner=true
       K8S_CLEANER_JOB_NAMESPACE: default
       K8S_CLEANER_LOGGER_JSON: "true"
       K8S_CLEANER_TELEMETRY_URL: datadog.observability:4317
       OTEL_RESOURCE_ATTRIBUTES: env=production,git.repository_url=github.com/ViBiOh/k8s-cleaner
-      OTEL_SERVICE_NAME: k8s-cleaner
     pprof:
       enabled: true
     autoscaling:
