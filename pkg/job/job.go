@@ -56,7 +56,7 @@ func New(config *Config, k8s *kubernetes.Clientset) Service {
 
 	payload, err := json.Marshal(patch)
 	if err != nil {
-		slog.Error("marshal json", "error", err)
+		slog.LogAttrs(context.Background(), slog.LevelError, "marshal json", slog.Any("error", err))
 		os.Exit(1)
 	}
 
@@ -104,7 +104,7 @@ func (s Service) watchNamespace(ctx context.Context, namespace string) bool {
 	})
 	logger.FatalfOnErr(ctx, err, "watch jobs")
 
-	slog.InfoContext(ctx, "Listening jobs", "namespace", namespace, "label", s.label)
+	slog.LogAttrs(ctx, slog.LevelInfo, "Listening jobs", slog.String("namespace", namespace), slog.String("label", s.label))
 
 	var done bool
 
@@ -122,10 +122,10 @@ func (s Service) watchNamespace(ctx context.Context, namespace string) bool {
 			return
 		}
 
-		slog.InfoContext(ctx, "Updating TTLSecondsAfterFinished", "namespace", job.Namespace, "name", job.Name)
+		slog.LogAttrs(ctx, slog.LevelInfo, "Updating TTLSecondsAfterFinished", slog.String("namespace", job.Namespace), slog.String("name", job.Name))
 
 		if _, err := s.k8s.BatchV1().Jobs(job.Namespace).Patch(ctx, job.Name, types.MergePatchType, s.payload, v1.PatchOptions{}); err != nil {
-			slog.ErrorContext(ctx, "patch job", "error", err, "namespace", job.Namespace, "name", job.Name)
+			slog.LogAttrs(ctx, slog.LevelError, "patch job", slog.String("namespace", job.Namespace), slog.String("name", job.Name), slog.Any("error", err))
 		}
 	}, func() {
 		select {
