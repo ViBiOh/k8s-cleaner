@@ -1,8 +1,8 @@
 module github.com/ViBiOh/k8s-cleaner
 
-go 1.21
+go 1.22
 
-toolchain go1.21.0
+toolchain go1.22.0
 
 require (
 	github.com/ViBiOh/flags v1.5.0
