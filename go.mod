@@ -6,7 +6,7 @@ toolchain go1.22.0
 
 require (
 	github.com/ViBiOh/flags v1.5.0
-	github.com/ViBiOh/httputils/v4 v4.74.1
+	github.com/ViBiOh/httputils/v4 v4.74.2
 	k8s.io/api v0.29.3
 	k8s.io/apimachinery v0.29.3
 	k8s.io/client-go v0.29.3
@@ -37,27 +37,27 @@ require (
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/rabbitmq/amqp091-go v1.9.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.49.0 // indirect
-	go.opentelemetry.io/contrib/instrumentation/runtime v0.49.0 // indirect
-	go.opentelemetry.io/otel v1.24.0 // indirect
-	go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetricgrpc v1.24.0 // indirect
-	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.24.0 // indirect
-	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.24.0 // indirect
-	go.opentelemetry.io/otel/metric v1.24.0 // indirect
-	go.opentelemetry.io/otel/sdk v1.24.0 // indirect
-	go.opentelemetry.io/otel/sdk/metric v1.24.0 // indirect
-	go.opentelemetry.io/otel/trace v1.24.0 // indirect
+	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.50.0 // indirect
+	go.opentelemetry.io/contrib/instrumentation/runtime v0.50.0 // indirect
+	go.opentelemetry.io/otel v1.25.0 // indirect
+	go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetricgrpc v1.25.0 // indirect
+	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.25.0 // indirect
+	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.25.0 // indirect
+	go.opentelemetry.io/otel/metric v1.25.0 // indirect
+	go.opentelemetry.io/otel/sdk v1.25.0 // indirect
+	go.opentelemetry.io/otel/sdk/metric v1.25.0 // indirect
+	go.opentelemetry.io/otel/trace v1.25.0 // indirect
 	go.opentelemetry.io/proto/otlp v1.1.0 // indirect
-	golang.org/x/net v0.23.0 // indirect
-	golang.org/x/oauth2 v0.16.0 // indirect
-	golang.org/x/sys v0.18.0 // indirect
-	golang.org/x/term v0.18.0 // indirect
+	golang.org/x/net v0.24.0 // indirect
+	golang.org/x/oauth2 v0.17.0 // indirect
+	golang.org/x/sys v0.19.0 // indirect
+	golang.org/x/term v0.19.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
 	google.golang.org/appengine v1.6.8 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20240401170217-c3f982113cda // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240401170217-c3f982113cda // indirect
-	google.golang.org/grpc v1.62.1 // indirect
+	google.golang.org/grpc v1.63.0 // indirect
 	google.golang.org/protobuf v1.33.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
