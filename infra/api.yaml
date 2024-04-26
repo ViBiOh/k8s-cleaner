@@ -27,11 +27,11 @@ spec:
     serviceAccountName: k8s-cleaner
     image:
       name: vibioh/k8s-cleaner
-      tag: "202404232305" # {"$imagepolicy": "default:flux-k8s-cleaner-api:tag"}
+      tag: "202404261021" # {"$imagepolicy": "default:flux-k8s-cleaner-api:tag"}
     labels:
       tags.datadoghq.com/env: "production"
       tags.datadoghq.com/service: "k8s-cleaner"
-      tags.datadoghq.com/version: "202404232305" # {"$imagepolicy": "default:flux-k8s-cleaner-api:tag"}
+      tags.datadoghq.com/version: "202404261021" # {"$imagepolicy": "default:flux-k8s-cleaner-api:tag"}
     env:
       - name: GOMAXPROCS
         valueFrom:
