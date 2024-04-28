@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"flag"
+	"fmt"
 	"log/slog"
 	"os"
 	"strings"
@@ -104,7 +105,7 @@ func (s Service) watchNamespace(ctx context.Context, namespace string) bool {
 	})
 	logger.FatalfOnErr(ctx, err, "watch jobs")
 
-	slog.LogAttrs(ctx, slog.LevelInfo, "Listening jobs", slog.String("namespace", namespace), slog.String("label", s.label))
+	slog.LogAttrs(ctx, slog.LevelInfo, fmt.Sprintf("Listening jobs with label=`%s`", s.label), slog.String("namespace", namespace))
 
 	var done bool
 
@@ -122,7 +123,7 @@ func (s Service) watchNamespace(ctx context.Context, namespace string) bool {
 			return
 		}
 
-		slog.LogAttrs(ctx, slog.LevelInfo, "Updating TTLSecondsAfterFinished", slog.String("namespace", job.Namespace), slog.String("name", job.Name))
+		slog.LogAttrs(ctx, slog.LevelInfo, fmt.Sprintf("Updating TTLSecondsAfterFinished for `%s`", job.Name), slog.String("namespace", job.Namespace))
 
 		if _, err := s.k8s.BatchV1().Jobs(job.Namespace).Patch(ctx, job.Name, types.MergePatchType, s.payload, v1.PatchOptions{}); err != nil {
 			slog.LogAttrs(ctx, slog.LevelError, "patch job", slog.String("namespace", job.Namespace), slog.String("name", job.Name), slog.Any("error", err))
