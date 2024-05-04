@@ -56,8 +56,7 @@ spec:
       K8S_CLEANER_JOB_NAMESPACE: default
       K8S_CLEANER_LOGGER_JSON: "true"
       K8S_CLEANER_TELEMETRY_URL: datadog.observability:4317
+      K8S_CLEANER_PPROF_AGENT: http://datadog.observability:8126
       OTEL_RESOURCE_ATTRIBUTES: env=production,git.repository_url=github.com/ViBiOh/k8s-cleaner
-    pprof:
-      enabled: true
     autoscaling:
       enabled: false
