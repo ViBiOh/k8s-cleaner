@@ -40,8 +40,14 @@ jobs:
         with:
           go-version: "^1.22"
           cache: true
-
       - name: Build
+        env:
+          DD_API_KEY: ${{ secrets.DD_API_KEY }}
+          DD_APP_KEY: ${{ secrets.DD_APP_KEY }}
+          DD_ENV: production
+          DD_SERVICE: k8s-cleaner
+          DD_SITE: datadoghq.eu
+          PGO_NAME: k8s-cleaner
         run: |
           make
           git --no-pager diff -- ':(exclude)go.sum' && git diff --quiet -- ':(exclude)go.sum'
