@@ -23,7 +23,6 @@ spec:
     cleanupOnFail: true
   values:
     nameOverride: k8s-cleaner
-    service: null
     serviceAccountName: k8s-cleaner
     image:
       name: vibioh/k8s-cleaner
@@ -49,8 +48,6 @@ spec:
         valueFrom:
           fieldRef:
             fieldPath: metadata.labels['tags.datadoghq.com/service']
-    probes:
-      enabled: false
     config:
       K8S_CLEANER_JOB_LABEL: k8s-cleaner=true
       K8S_CLEANER_JOB_NAMESPACE: default
@@ -58,5 +55,8 @@ spec:
       K8S_CLEANER_TELEMETRY_URL: datadog.observability:4317
       K8S_CLEANER_PPROF_AGENT: http://datadog.observability:8126
       OTEL_RESOURCE_ATTRIBUTES: env=production,git.repository_url=github.com/ViBiOh/k8s-cleaner
+    probes:
+      enabled: false
     autoscaling:
       enabled: false
+    service: null
