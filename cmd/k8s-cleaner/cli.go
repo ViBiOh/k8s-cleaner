@@ -10,6 +10,7 @@ import (
 	"github.com/ViBiOh/httputils/v4/pkg/health"
 	"github.com/ViBiOh/httputils/v4/pkg/logger"
 	"github.com/ViBiOh/httputils/v4/pkg/pprof"
+	"github.com/ViBiOh/httputils/v4/pkg/request"
 	"github.com/ViBiOh/httputils/v4/pkg/server"
 	"github.com/ViBiOh/httputils/v4/pkg/telemetry"
 	"github.com/ViBiOh/k8s-cleaner/pkg/job"
@@ -46,6 +47,7 @@ func main() {
 	defer telemetryApp.Close(ctx)
 
 	logger.AddOpenTelemetryToDefaultLogger(telemetryApp)
+	request.AddOpenTelemetryToDefaultClient(telemetryApp.MeterProvider(), telemetryApp.TracerProvider())
 
 	service, version, env := telemetryApp.GetServiceVersionAndEnv()
 	pprofService := pprof.New(pprofConfig, service, version, env)
