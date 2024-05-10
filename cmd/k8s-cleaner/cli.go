@@ -35,9 +35,9 @@ func main() {
 
 	alcotest.DoAndExit(alcotestConfig)
 
-	logger.Init(loggerConfig)
-
 	ctx := context.Background()
+
+	logger.Init(ctx, loggerConfig)
 
 	healthApp := health.New(ctx, healthConfig)
 
