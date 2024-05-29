@@ -6,7 +6,7 @@ toolchain go1.22.2
 
 require (
 	github.com/ViBiOh/flags v1.5.0
-	github.com/ViBiOh/httputils/v4 v4.76.1
+	github.com/ViBiOh/httputils/v4 v4.76.2
 	k8s.io/api v0.30.1
 	k8s.io/apimachinery v0.30.1
 	k8s.io/client-go v0.30.1
