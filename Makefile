@@ -8,7 +8,7 @@ endif
 APP_NAME = k8s-cleaner
 PACKAGES ?= ./...
 
-MAIN_SOURCE = cmd/k8s-cleaner/cli.go
+MAIN_SOURCE = ./cmd/k8s-cleaner/
 MAIN_RUNNER = go run $(MAIN_SOURCE)
 ifeq ($(DEBUG), true)
 	MAIN_RUNNER = dlv debug $(MAIN_SOURCE) --
