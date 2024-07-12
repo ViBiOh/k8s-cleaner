@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"github.com/ViBiOh/httputils/v4/pkg/alcotest"
+	"github.com/ViBiOh/httputils/v4/pkg/health"
 	"github.com/ViBiOh/httputils/v4/pkg/logger"
-	"github.com/ViBiOh/httputils/v4/pkg/server"
 )
 
 func main() {
@@ -25,5 +25,5 @@ func main() {
 	go services.job.Start(clients.health.EndCtx())
 
 	clients.health.WaitForTermination(services.job.Done())
-	server.GracefulWait(services.job.Done())
+	health.WaitAll(services.job.Done())
 }
